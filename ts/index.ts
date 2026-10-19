@@ -4,12 +4,35 @@
  */
 export const BASE_URL = "https://hunterkiller.io";
 
+export type Verdict = "proceed" | "reduce" | "skip";
+
+/** One side's verdict. confidence is a float 0 to 1 (floor 0.2 with "thin_data" in reasons). */
+export interface SideVerdict {
+  verdict: Verdict;
+  confidence: number;
+  reasons: string[];
+}
+
 export interface DeskRead {
   ok: boolean;
   symbol: string;
   as_of: number | null;
+  /** The reference price used for the whole read. */
   price: number | null;
-  verdict: "proceed" | "reduce" | "skip" | null;
+  /** Never null. With no side: the better of verdict_long and verdict_short. */
+  verdict: Verdict;
+  /** Which side verdict is for: your side if you sent one, else the better hypothetical side. */
+  verdict_side: "long" | "short";
+  /** up, down or flat, from the pull. */
+  bias: "up" | "down" | "flat";
+  verdict_long: SideVerdict;
+  verdict_short: SideVerdict;
+  /** The opposite side, hypothetical at the current price. null when no side was given. */
+  verdict_other: SideVerdict | null;
+  /** Leverage used for the hypothetical sides (bus desk_read_default_leverage, default 10). */
+  assumed_leverage: number;
+  /** Always a float 0 to 1. */
+  confidence: number;
   text: string;
   lines: string[];
   [field: string]: unknown;
@@ -54,7 +77,7 @@ async function get(path: string, params: Record<string, unknown>, o: Options, ac
   return res;
 }
 
-/** The Desk Read for one perp pair. side, entry and leverage together add the liquidation view and a verdict. */
+/** The Desk Read for one perp pair. with no position you still get a verdict for both sides; side, entry and leverage add the liquidation view for yours. */
 export async function deskRead(
   symbol: string,
   position: { side?: "long" | "short"; entry?: number; leverage?: number } = {},

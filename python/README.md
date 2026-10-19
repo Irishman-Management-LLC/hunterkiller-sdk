@@ -12,11 +12,21 @@ import hunterkiller as hk
 read = hk.desk_read("BTCUSDT", side="long", entry=81000, leverage=20)
 print(read["verdict"], read["text"])
 
+# No position needed: one call returns a verdict for both hypothetical sides.
+read = hk.desk_read("BTCUSDT")
+print(read["verdict"], read["verdict_side"], read["bias"], read["confidence"])
+print(read["verdict_long"], read["verdict_short"])   # each {verdict, confidence, reasons}
+
 print(hk.symbols()["covered"])
 
 for event in hk.watch("BTCUSDT", threshold_pct=1.5):   # needs a key
     print(event["reason"], event["text"])
 ```
+
+`verdict` is never null and `confidence` is always a float from 0 to 1 (0.2 floor with the reason
+`thin_data` when little data backs the read). Without a position the verdict is the better of
+`verdict_long` and `verdict_short` at `price` and `assumed_leverage` (default 10); with a side,
+`verdict_other` is the opposite side.
 
 `desk_read` works without a key (delayed data). `watch` needs a key: a free key (delayed, one
 stream) is returned as `api_key` when you sign up at https://hunterkiller.io/signup. Pass `key=`

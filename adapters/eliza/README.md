@@ -1,6 +1,6 @@
 # @hunterkiller/plugin-eliza
 
-ElizaOS plugin with one Action, `DESK_READ`. It parses the symbol, side, entry and leverage from the message, calls the Desk Read and replies with the text and verdict.
+ElizaOS plugin with one Action, `DESK_READ`. It parses the symbol, side, entry and leverage from the message, calls the Desk Read and replies with the text, the verdict and `verdict_side`.
 
 ```
 npm install @hunterkiller/plugin-eliza

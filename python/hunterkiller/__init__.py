@@ -20,7 +20,7 @@ import urllib.parse
 import urllib.request
 
 __all__ = ["desk_read", "watch", "symbols", "HunterKillerError", "BASE_URL"]
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 BASE_URL = os.environ.get("HK_BASE_URL", "https://hunterkiller.io")
 _UA = "hunterkiller-python/" + __version__
@@ -64,7 +64,9 @@ def _get_json(path, params, key, base_url, timeout=15):
 
 def desk_read(symbol, side=None, entry=None, leverage=None, key=None, base_url=None):
     """The Desk Read for one perp pair: pull, hurt, cascade, crowd, plan, verdict, lines, text.
-    side, entry and leverage together add where your liquidation sits and a verdict."""
+    verdict, verdict_side, bias and a float confidence always come back; with no position the
+    verdict is the better of verdict_long and verdict_short at the current price. side, entry
+    and leverage together add where your liquidation sits and score your own position."""
     return _get_json("/api/desk_read", {"symbol": symbol, "side": side, "entry": entry,
                                         "leverage": leverage, "ref": "hunterkiller-python"},
                      key, base_url)

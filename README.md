@@ -9,7 +9,7 @@ pip install "git+https://github.com/Irishman-Management-LLC/hunterkiller-sdk#sub
 ```python
 from hunterkiller import desk_read
 r = desk_read("BTCUSDT", side="long", entry=82000, leverage=20, key=None)  # key=None is the free delayed tier
-print(r["text"]); print(r["verdict"])
+print(r["text"]); print(r["verdict"], r["verdict_side"])
 ```
 
 TypeScript
@@ -19,6 +19,8 @@ npm install hunterkiller-sdk
 See `ts/README.md`.
 
 ## Use it from
+
+Every read returns `verdict` with `verdict_side` (long or short), plus `verdict_long` and `verdict_short` when no position is given.
 
 | Framework | Install |
 |---|---|
