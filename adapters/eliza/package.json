@@ -1,0 +1,16 @@
+{
+  "name": "@hunterkiller/plugin-eliza",
+  "version": "0.1.0",
+  "description": "ElizaOS plugin: Hunter Killer Desk Read as the DESK_READ action",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": ["dist"],
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=esm --platform=node --outfile=dist/index.js",
+    "test": "node smoke_test.mjs"
+  },
+  "dependencies": { "hunterkiller-sdk": "^0.1.0" },
+  "devDependencies": { "esbuild": "^0.24.0" },
+  "homepage": "https://hunterkiller.io/for-agents"
+}

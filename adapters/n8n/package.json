@@ -1,0 +1,9 @@
+{
+  "name": "n8n-nodes-hunterkiller",
+  "version": "0.1.0",
+  "description": "n8n community package manifest for the Hunter Killer Desk Read. Ships a pasteable HTTP Request workflow today.",
+  "license": "MIT",
+  "keywords": ["n8n-community-node-package", "crypto", "liquidations", "hunterkiller"],
+  "n8n": { "n8nNodesApiVersion": 1, "credentials": [], "nodes": [] },
+  "files": ["desk_read.workflow.json"]
+}

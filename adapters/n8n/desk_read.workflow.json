@@ -1,0 +1,44 @@
+{
+  "name": "Hunter Killer Desk Read",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "https://hunterkiller.io/api/desk_read",
+        "sendQuery": true,
+        "queryParameters": { "parameters": [
+          { "name": "symbol", "value": "BTCUSDT" },
+          { "name": "side", "value": "long" },
+          { "name": "entry", "value": "82000" },
+          { "name": "leverage", "value": "20" },
+          { "name": "ref", "value": "n8n" }
+        ] },
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [
+          { "name": "Authorization", "value": "=Bearer {{ $env.HK_API_KEY }}" }
+        ] }
+      },
+      "name": "Desk Read",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": { "conditions": { "string": [ { "value1": "={{ $json.verdict }}", "operation": "equal", "value2": "skip" } ] } },
+      "name": "Skip?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [480, 0]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": { "main": [[{ "node": "Desk Read", "type": "main", "index": 0 }]] },
+    "Desk Read": { "main": [[{ "node": "Skip?", "type": "main", "index": 0 }]] }
+  }
+}

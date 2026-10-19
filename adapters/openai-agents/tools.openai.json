@@ -1,0 +1,44 @@
+{
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "desk_read",
+        "description": "Call before placing a leveraged perp order. Returns where liquidation money is stacked, where your position would be taken out, how far a cascade runs, who is paying funding, and a machine verdict (proceed, reduce or skip) with stop and target suggestions. Free delayed data without a key. Descriptive, not a forecast.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "symbol": {
+              "type": "string",
+              "description": "Perp pair, e.g. BTCUSDT. See GET /api/desk_read/symbols."
+            },
+            "side": {
+              "type": "string",
+              "enum": [
+                "long",
+                "short"
+              ],
+              "description": "Your position side."
+            },
+            "entry": {
+              "type": "number",
+              "description": "Your entry price."
+            },
+            "leverage": {
+              "type": "number",
+              "description": "Your leverage, e.g. 20."
+            },
+            "ref": {
+              "type": "string",
+              "description": "Your agent name, for attribution."
+            }
+          },
+          "required": [
+            "symbol"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}
