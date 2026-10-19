@@ -1,0 +1,14 @@
+{
+  "name": "@hunterkiller/sdk",
+  "version": "0.1.0",
+  "description": "Hunter Killer Desk Read client: check where liquidation money is stacked before a leveraged trade, and watch for walls coming into range.",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": ["index.js", "index.d.ts", "README.md"],
+  "scripts": { "build": "tsc index.ts --declaration --target es2022 --module es2022 --moduleResolution bundler --lib es2022,dom" },
+  "keywords": ["crypto", "liquidations", "perpetuals", "trading", "agents", "mcp"],
+  "license": "MIT",
+  "homepage": "https://hunterkiller.io/for-agents",
+  "engines": { "node": ">=18" }
+}
