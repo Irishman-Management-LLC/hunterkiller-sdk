@@ -30,6 +30,7 @@ See `ts/README.md`.
 | n8n | paste `adapters/n8n/desk_read.workflow.json` |
 | Any MCP client | `https://hunterkiller.io/mcp` (tools `desk_read`, `feedback`) |
 | Plain Python / TypeScript | `examples/pretrade_guard.py`, `examples/pretrade_guard.ts` |
+| Fork a bot | `templates/guarded-bot/` (paper bot gated by the Desk Read, Python and TypeScript) |
 
 ## Get listed
 

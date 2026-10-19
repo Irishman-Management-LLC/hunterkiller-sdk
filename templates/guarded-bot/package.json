@@ -1,0 +1,8 @@
+{
+  "name": "hunterkiller-guarded-bot",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node bot.mjs", "build": "esbuild bot.ts --bundle --platform=node --format=esm --target=node18 --outfile=bot.mjs" },
+  "dependencies": { "hunterkiller-sdk": "^0.1.0" },
+  "devDependencies": { "esbuild": "^0.25.0" }
+}

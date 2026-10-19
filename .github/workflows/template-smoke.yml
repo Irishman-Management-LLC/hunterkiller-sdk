@@ -1,0 +1,21 @@
+name: template-smoke
+on:
+  pull_request:
+    paths: ["templates/guarded-bot/**", "python/**", ".github/workflows/template-smoke.yml"]
+  workflow_dispatch:
+jobs:
+  guarded-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Run one dry cycle against the free endpoint
+        working-directory: templates/guarded-bot
+        env:
+          PYTHONPATH: ../../python
+          DECISIONS_FILE: ${{ runner.temp }}/decisions.jsonl
+        run: |
+          python bot.py --once
+          test -s "$DECISIONS_FILE"
+          python -c "import json,sys; [json.loads(l) for l in open(sys.argv[1])]" "$DECISIONS_FILE"
