@@ -1,5 +1,5 @@
 {
-  "name": "@hunterkiller/sdk",
+  "name": "hunterkiller-sdk",
   "version": "0.1.0",
   "description": "Hunter Killer Desk Read client: check where liquidation money is stacked before a leveraged trade, and watch for walls coming into range.",
   "license": "MIT",
