@@ -14,7 +14,7 @@ print(r["text"]); print(r["verdict"])
 
 TypeScript
 ```
-npm install github:Irishman-Management-LLC/hunterkiller-sdk#main --prefix ts
+npm install github:Irishman-Management-LLC/hunterkiller-sdk
 ```
 See `ts/README.md`.
 
