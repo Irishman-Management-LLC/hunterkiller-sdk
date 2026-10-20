@@ -58,7 +58,8 @@ export class HunterKillerError extends Error {
 }
 
 function headers(o: Options, accept: string): Record<string, string> {
-  const key = o.key ?? (typeof process !== "undefined" ? process.env?.HK_API_KEY : undefined);
+  const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+  const key = o.key ?? env?.HK_API_KEY;
   const h: Record<string, string> = { Accept: accept };
   if (key) h.Authorization = `Bearer ${key}`;
   return h;
@@ -83,13 +84,13 @@ export async function deskRead(
   position: { side?: "long" | "short"; entry?: number; leverage?: number } = {},
   o: Options = {},
 ): Promise<DeskRead> {
-  const res = await get("/api/desk_read", { symbol, ...position, ref: "hunterkiller-ts" }, o);
+  const res = await get("/api/v1/desk_read", { symbol, ...position, ref: "hunterkiller-ts" }, o);
   return res.json() as Promise<DeskRead>;
 }
 
 /** Covered symbols per tier and the free-tier delay. */
 export async function symbols(o: Options = {}): Promise<Record<string, unknown>> {
-  return (await get("/api/desk_read/symbols", {}, o)).json();
+  return (await get("/api/v1/desk_read/symbols", {}, o)).json();
 }
 
 /**
@@ -106,7 +107,7 @@ export async function* watch(
   let delay = 1000;
   while (!o.signal?.aborted) {
     try {
-      const res = await get("/api/desk_read/watch",
+      const res = await get("/api/v1/desk_read/watch",
         { symbol, threshold_pct: thresholdPct, ref: "hunterkiller-ts" }, o, "text/event-stream");
       delay = 1000;
       const reader = res.body!.getReader();

@@ -4,17 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hunterkiller"
-version = "0.2.0"
+version = "0.3.0"
 description = "Hunter Killer Desk Read client: check where liquidation money is stacked before a leveraged trade, and watch for walls coming into range."
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
 dependencies = []
-
-[project.optional-dependencies]
-langchain = ["langchain-core>=0.2"]
-crewai = ["crewai>=0.80"]
-openai-agents = ["openai-agents>=0.1"]
 keywords = ["crypto", "liquidations", "perpetuals", "trading", "agents", "mcp"]
 
 [project.urls]

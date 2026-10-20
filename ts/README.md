@@ -32,3 +32,10 @@ stream) is returned as `api_key` when you sign up at https://hunterkiller.io/sig
 or set `HK_API_KEY`. A paid key is live with five streams. Errors throw `HunterKillerError`
 with `status` and `body`. `watch` reconnects after the 30 minute cap.
 Descriptive data, not a forecast. Docs: https://hunterkiller.io/for-agents
+
+## API version
+
+Version 0.3.0 uses `/api/v1/desk_read`, `/api/v1/desk_read/symbols` and
+`/api/v1/desk_read/watch`. The v1 contract allows additional fields. Existing fields
+and event names will not be removed or renamed within v1. The original
+`/api/desk_read` routes remain supported.

@@ -20,7 +20,7 @@ import urllib.parse
 import urllib.request
 
 __all__ = ["desk_read", "watch", "symbols", "HunterKillerError", "BASE_URL"]
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 BASE_URL = os.environ.get("HK_BASE_URL", "https://hunterkiller.io")
 _UA = "hunterkiller-python/" + __version__
@@ -67,14 +67,14 @@ def desk_read(symbol, side=None, entry=None, leverage=None, key=None, base_url=N
     verdict, verdict_side, bias and a float confidence always come back; with no position the
     verdict is the better of verdict_long and verdict_short at the current price. side, entry
     and leverage together add where your liquidation sits and score your own position."""
-    return _get_json("/api/desk_read", {"symbol": symbol, "side": side, "entry": entry,
+    return _get_json("/api/v1/desk_read", {"symbol": symbol, "side": side, "entry": entry,
                                         "leverage": leverage, "ref": "hunterkiller-python"},
                      key, base_url)
 
 
 def symbols(base_url=None):
     """Covered symbols per tier and the free-tier delay."""
-    return _get_json("/api/desk_read/symbols", {}, None, base_url)
+    return _get_json("/api/v1/desk_read/symbols", {}, None, base_url)
 
 
 def _sse(lines):
@@ -102,7 +102,7 @@ def watch(symbol, threshold_pct=1.5, key=None, base_url=None, reconnect=True, ma
     the generator after that many events (handy in tests)."""
     q = urllib.parse.urlencode({"symbol": symbol, "threshold_pct": threshold_pct,
                                 "ref": "hunterkiller-python"})
-    url = f"{base_url or BASE_URL}/api/desk_read/watch?{q}"
+    url = f"{base_url or BASE_URL}/api/v1/desk_read/watch?{q}"
     headers = dict(_headers(key), Accept="text/event-stream")
     sent, delay = 0, 1.0
     while True:

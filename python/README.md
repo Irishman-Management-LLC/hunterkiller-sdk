@@ -36,3 +36,10 @@ with `.status` and `.body`.
 `watch` yields the `desk_read` payload plus `event`, `reason` (`connect`, `wall_in_range:above`,
 `wall_in_range:below`, `pull_flip`) and `threshold_pct`. It reconnects on its own after the
 30 minute cap. Descriptive data, not a forecast. Docs: https://hunterkiller.io/for-agents
+
+## API version
+
+Version 0.3.0 uses `/api/v1/desk_read`, `/api/v1/desk_read/symbols` and
+`/api/v1/desk_read/watch`. The v1 contract allows additional fields. Existing fields
+and event names will not be removed or renamed within v1. The original
+`/api/desk_read` routes remain supported.

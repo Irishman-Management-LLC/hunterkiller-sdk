@@ -9,7 +9,8 @@ class HunterKillerError extends Error {
   body;
 }
 function headers(o, accept) {
-  const key = o.key ?? (typeof process !== "undefined" ? process.env?.HK_API_KEY : void 0);
+  const env = globalThis.process?.env;
+  const key = o.key ?? env?.HK_API_KEY;
   const h = { Accept: accept };
   if (key) h.Authorization = `Bearer ${key}`;
   return h;
@@ -31,11 +32,11 @@ async function get(path, params, o, accept = "application/json") {
   return res;
 }
 async function deskRead(symbol, position = {}, o = {}) {
-  const res = await get("/api/desk_read", { symbol, ...position, ref: "hunterkiller-ts" }, o);
+  const res = await get("/api/v1/desk_read", { symbol, ...position, ref: "hunterkiller-ts" }, o);
   return res.json();
 }
 async function symbols(o = {}) {
-  return (await get("/api/desk_read/symbols", {}, o)).json();
+  return (await get("/api/v1/desk_read/symbols", {}, o)).json();
 }
 async function* watch(symbol, thresholdPct = 1.5, o = {}) {
   let sent = 0;
@@ -43,7 +44,7 @@ async function* watch(symbol, thresholdPct = 1.5, o = {}) {
   while (!o.signal?.aborted) {
     try {
       const res = await get(
-        "/api/desk_read/watch",
+        "/api/v1/desk_read/watch",
         { symbol, threshold_pct: thresholdPct, ref: "hunterkiller-ts" },
         o,
         "text/event-stream"

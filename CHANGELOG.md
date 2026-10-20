@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+- Clients call the frozen v1 paths: `/api/v1/desk_read`, `/api/v1/desk_read/symbols` and `/api/v1/desk_read/watch`. The v1 contract only adds fields; a removal or rename would ship as v2. The unversioned paths keep working for older clients.
+- TypeScript: reads `HK_API_KEY` without assuming a Node `process` global, so the client runs in edge and browser runtimes too.
+
 ## 0.2.0
 
 - Desk Read returns a verdict for both sides when no position is given: `verdict_long` and `verdict_short`, each `{verdict, confidence, reasons}`, plus top-level `verdict`, `verdict_side`, `bias` and `assumed_leverage`. With a side given, `verdict_other` covers the opposite side.
