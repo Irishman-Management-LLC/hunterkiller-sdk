@@ -149,3 +149,7 @@ export async function* watch(
     delay = Math.min(delay * 2, 30000);
   }
 }
+
+
+export { EventSubscription, FeedError, ReplayGapError, subscribeEvents, replayEvents } from "./events.js";
+export type { CascadeEvent, CascadeEventName, FeedFrame, ReplayPage, EventOptions } from "./events.js";

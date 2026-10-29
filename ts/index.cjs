@@ -18,12 +18,18 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   BASE_URL: () => BASE_URL,
+  EventSubscription: () => import_events.EventSubscription,
+  FeedError: () => import_events.FeedError,
   HunterKillerError: () => HunterKillerError,
+  ReplayGapError: () => import_events.ReplayGapError,
   deskRead: () => deskRead,
+  replayEvents: () => import_events.replayEvents,
+  subscribeEvents: () => import_events.subscribeEvents,
   symbols: () => symbols,
   watch: () => watch
 });
 module.exports = __toCommonJS(index_exports);
+var import_events = require("./events.js");
 const BASE_URL = "https://hunterkiller.io";
 class HunterKillerError extends Error {
   constructor(status, body) {

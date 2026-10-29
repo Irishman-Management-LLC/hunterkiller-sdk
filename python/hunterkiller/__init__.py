@@ -8,8 +8,9 @@
         print(event["reason"], event["text"])
 
 A key is optional for desk_read (keyless calls get the delayed tier) and required for watch.
-Get a free key (delayed data) at https://hunterkiller.io/signup. The key can also come from the
-HK_API_KEY environment variable. Descriptive data, not a forecast."""
+Sign in with your email code, Google or X, then call POST /api/keys/free to mint your free key.
+It is shown once, so store it. A second key or live data needs an API plan. The key can also
+come from the HK_API_KEY environment variable. Descriptive data, not a forecast."""
 from __future__ import annotations
 
 import json
@@ -20,7 +21,7 @@ import urllib.parse
 import urllib.request
 
 __all__ = ["desk_read", "watch", "symbols", "HunterKillerError", "BASE_URL"]
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 BASE_URL = os.environ.get("HK_BASE_URL", "https://hunterkiller.io")
 _UA = "hunterkiller-python/" + __version__
@@ -127,3 +128,8 @@ def watch(symbol, threshold_pct=1.5, key=None, base_url=None, reconnect=True, ma
             return
         time.sleep(delay)
         delay = min(delay * 2, 30.0)
+
+
+# V2 is explicit and additive; legacy desk_read/watch behavior is unchanged.
+from .events import (EventSubscription, FeedFrame, FeedError, ReplayGapError, subscribe_events, replay_events)
+__all__ += ["EventSubscription", "FeedFrame", "FeedError", "ReplayGapError", "subscribe_events", "replay_events"]

@@ -94,10 +94,16 @@ async function* watch(symbol, thresholdPct = 1.5, o = {}) {
     delay = Math.min(delay * 2, 3e4);
   }
 }
+import { EventSubscription, FeedError, ReplayGapError, subscribeEvents, replayEvents } from "./events.js";
 export {
   BASE_URL,
+  EventSubscription,
+  FeedError,
   HunterKillerError,
+  ReplayGapError,
   deskRead,
+  replayEvents,
+  subscribeEvents,
   symbols,
   watch
 };

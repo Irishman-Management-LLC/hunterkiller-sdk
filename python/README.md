@@ -1,9 +1,65 @@
 # hunterkiller (Python)
 
+The checked out SDK source is version **0.4.0**. Cascade Feed v2 and HTTP replay
+require the matching card 5456 backend release. Package publication is a
+separate step. Install this source from the repository root:
+
+```sh
+python -m pip install ./sdk/python
+```
+
+The existing `desk_read`, `symbols` and `watch` helpers retain their v1 behavior.
+The new subscription API uses `version=2` explicitly:
+
+```python
+import hunterkiller as hk
+
+feed = hk.subscribe_events("BTCUSDT")  # uses HK_API_KEY; construction does not connect
+feed.on("wall_touched", lambda event: print(event["event_id"], event["data"]))
+feed.on("source_status", lambda status: print(status))
+
+try:
+    feed.run()                         # synchronous; callbacks finish before cursor advance
+except hk.ReplayGapError:
+    print("Choose an explicit replay window for this symbol and tier.")
+finally:
+    feed.close()
+
+print(feed.cursor)                    # last successfully handled event, kept in memory
+```
+
+The four approved event names are `wall_touched`, `wall_broken`, `cascade_live`
+and `oi_shock`. Call `close()` to stop reading or reconnecting. Python callbacks
+are synchronous; an awaitable result is rejected before acknowledgement.
+
+Use `after=saved_cursor` to resume. A failed callback stops the subscription and
+keeps the previous cursor. Save your application cursor after successful
+processing and make handlers idempotent by `event_id`; the local duplicate
+window covers the last 1024 handled events. Handler names filter locally and do
+not change the server subscription.
+
+`replay_events("BTCUSDT", after=saved_cursor, limit=100)` requests one page from
+`/api/events/replay`. Follow `next_cursor` in server order when `has_more` is
+true. An unavailable endpoint raises its HTTP error. Replay gaps and stream
+errors stay explicit; the SDK never automatically clears a cursor.
+
+Every event retains the server's provenance, source times, `missing_fields`,
+unknown values and extra fields. A null `data.baseline_minutes` remains null.
+Transport status frames have no event id; inspect `feed.last_control` or
+register a `source_status` handler. Errors and exhausted credits stop the
+subscription after their control handler runs. Access, limits and existing
+billing remain server policy. Keep API keys in your server environment.
+
+The client protocol and release boundaries are in
+[Cascade SDK v2](../../docs/CASCADE_SDK_V2.md).
+
+## Legacy Desk Read v1 helpers
+
+
 Client for the Hunter Killer Desk Read. Standard library only.
 
 ```
-pip install hunterkiller
+python -m pip install ./sdk/python
 ```
 
 ```python
@@ -29,7 +85,7 @@ for event in hk.watch("BTCUSDT", threshold_pct=1.5):   # needs a key
 `verdict_other` is the opposite side.
 
 `desk_read` works without a key (delayed data). `watch` needs a key: a free key (delayed, one
-stream) is returned as `api_key` when you sign up at https://hunterkiller.io/signup. Pass `key=`
+stream) is available after sign in. Sign in with your email code, Google or X, then call POST /api/keys/free to mint your free key. It is shown once, so store it. A second key or live data needs an API plan. Pass `key=`
 or set `HK_API_KEY`. A paid key is live and gets five streams. Errors raise `HunterKillerError`
 with `.status` and `.body`.
 

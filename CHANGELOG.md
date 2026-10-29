@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- Cascade Feed v2 for agents: `subscribe_events` (Python) and `subscribeEvents` (TypeScript) stream the four approved events, `wall_touched`, `wall_broken`, `cascade_live` and `oi_shock`, with event ids, an in-memory cursor and HTTP replay (`replayEvents`); `ReplayGapError` tells the client to choose an explicit replay window. Requires the Hunter Killer backend at release 43 or later.
+- The `desk_read`, `symbols` and `watch` helpers keep their v1 paths and behavior; the subscription API uses `version=2` explicitly.
+- Construction never connects; call `close()` to stop reading or reconnecting.
+
 ## 0.3.0
 
 - Clients call the frozen v1 paths: `/api/v1/desk_read`, `/api/v1/desk_read/symbols` and `/api/v1/desk_read/watch`. The v1 contract only adds fields; a removal or rename would ship as v2. The unversioned paths keep working for older clients.
