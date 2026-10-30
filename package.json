@@ -9,15 +9,16 @@
   "types": "./ts/index.ts",
   "exports": {
     ".": {
+      "types": "./ts/index.ts",
       "import": "./ts/index.mjs",
-      "require": "./ts/index.cjs",
-      "types": "./ts/index.ts"
+      "require": "./ts/index.cjs"
     }
   },
   "files": [
     "ts/index.mjs",
     "ts/index.cjs",
     "ts/index.ts",
+    "ts/events.ts",
     "README.md"
   ],
   "repository": "github:Irishman-Management-LLC/hunterkiller-sdk",
